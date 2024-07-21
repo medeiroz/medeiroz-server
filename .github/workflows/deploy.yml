@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build artifact
-        run: tar -cf artifact.tar .
+        run: tar -cf server.tar .
       
       - name: Save artifact
         uses: actions/upload-artifact@v4
         with:
           name: artifact
-          path: artifact.tar
+          path: server.tar
 
 
   deploy:
@@ -41,8 +41,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
-          source: artifact.tar
-          target: /app/server
+          source: server.tar
+          target: /app
 
       - name: Start deployment
         uses: appleboy/ssh-action@v1.0.3
@@ -52,9 +52,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /app/
-            rm -rf /app/server/*
-            tar -xvf artifact.tar -C server
+            cd /app
+            rm -rf /app/server
+            tar -xvf artifact.tar -c /app/server
             rm -f artifact.tar
 
             docker stack deploy -c /app/server/traefik/docker-compose.yml traefik
