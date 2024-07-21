@@ -52,7 +52,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /app/server
-            tar -xvf artifact.tar
+            cd /app/
+            rm -rf /app/server/*
+            tar -xvf artifact.tar -C server
+            rm -f artifact.tar
 
-            docker stack deploy -c ./traefik/docker-compose.yml traefik
+            docker stack deploy -c /app/server/traefik/docker-compose.yml traefik
