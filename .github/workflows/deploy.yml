@@ -54,6 +54,7 @@ jobs:
           script: |
             cd /app
             rm -rf /app/server
+            mkdir -p /app/server
             tar -xvf server.tar -C /app/server
             rm -f server.tar
 
