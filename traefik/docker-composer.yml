@@ -1,0 +1,18 @@
+services:
+  traefik:
+    image: traefik:v3.1
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./letsencrypt:/letsencrypt" # Volume para armazenar certificados
+      - "/var/run/docker.sock:/var/run/docker.sock" # Permite que o Traefik se comunique com o Docker
+      - "./traefik.yml:/etc/traefik/traefik.yml" # Arquivo de configuração do Traefik
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
