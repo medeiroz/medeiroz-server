@@ -54,7 +54,7 @@ jobs:
           script: |
             cd /app
             rm -rf /app/server
-            tar -xvf artifact.tar -C /app/server
-            rm -f artifact.tar
+            tar -xvf server.tar -C /app/server
+            rm -f server.tar
 
             docker stack deploy -c /app/server/traefik/docker-compose.yml traefik
