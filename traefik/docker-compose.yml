@@ -1,6 +1,5 @@
 services:
   traefik:
-    container_name: traefik
     image: traefik:v3.1
     command:
       - "--configFile=/etc/traefik/traefik.yml"
